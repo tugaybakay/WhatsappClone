@@ -8,7 +8,13 @@
 import UIKit
 import SafariServices
 
+protocol WCWelcomeViewDelegate: AnyObject {
+    func wcWelcomeViewButtonDidTap()
+}
+
 class WCWelcomeView: UIView {
+    
+    weak var delegate: WCWelcomeViewDelegate?
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -32,16 +38,23 @@ class WCWelcomeView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false
         textView.isSelectable = true
+        
 //        textView.dataDetectorTypes = .link
         let attributedString = NSMutableAttributedString(string: "  Read our Privacy Policy, Tap \"Agree & Continue \" to accept the Terms of Service")
 //        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16), range: NSRange(location: 0, length: attributedString.length))
         attributedString.addAttributes([.foregroundColor: UIColor.red,.font: UIFont.systemFont(ofSize: 17)], range: NSRange(location: 0, length: attributedString.length))
         let privacyPolicyRange = attributedString.mutableString.range(of: "Privacy Policy")
         attributedString.addAttribute(.link, value: "https://www.whatsapp.com/legal/privacy-policy", range: privacyPolicyRange)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: privacyPolicyRange)
+//
         let termsOfServiceRange = attributedString.mutableString.range(of: "Terms of Service")
+//        attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: termsOfServiceRange)
         attributedString.addAttribute(.link, value: "https://www.whatsapp.com/legal/terms-of-service", range: termsOfServiceRange)
+        
         textView.attributedText = attributedString
+//
         return textView
+       
     }()
     
     let button: UIButton = {
@@ -78,7 +91,7 @@ class WCWelcomeView: UIView {
     }
     
     @objc func handleTap() {
-        print("deneme")
+        delegate?.wcWelcomeViewButtonDidTap()
     }
     
     required init?(coder: NSCoder) {

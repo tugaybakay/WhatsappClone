@@ -21,6 +21,8 @@
 		220D566E2B23412D003A2155 /* WCWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D566D2B23412D003A2155 /* WCWelcomeViewController.swift */; };
 		220D56722B2346C5003A2155 /* WCWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56712B2346C5003A2155 /* WCWelcomeView.swift */; };
 		220D56742B234744003A2155 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56732B234744003A2155 /* Extensions.swift */; };
+		220D56762B23879C003A2155 /* WCRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56752B23879C003A2155 /* WCRegisterViewController.swift */; };
+		220D56782B275F97003A2155 /* WCRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56772B275F97003A2155 /* WCRegisterView.swift */; };
 		CF0724D89A1E4F87D73D927B /* Pods_WhatsappClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E72C1E091C62684D41F5878F /* Pods_WhatsappClone.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +43,8 @@
 		220D566D2B23412D003A2155 /* WCWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCWelcomeViewController.swift; sourceTree = "<group>"; };
 		220D56712B2346C5003A2155 /* WCWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCWelcomeView.swift; sourceTree = "<group>"; };
 		220D56732B234744003A2155 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		220D56752B23879C003A2155 /* WCRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRegisterViewController.swift; sourceTree = "<group>"; };
+		220D56772B275F97003A2155 /* WCRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRegisterView.swift; sourceTree = "<group>"; };
 		750FD0A897CA08AB9EB1BA34 /* Pods-WhatsappClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhatsappClone.debug.xcconfig"; path = "Target Support Files/Pods-WhatsappClone/Pods-WhatsappClone.debug.xcconfig"; sourceTree = "<group>"; };
 		B296A3EA5037EB0061D18D39 /* Pods-WhatsappClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhatsappClone.release.xcconfig"; path = "Target Support Files/Pods-WhatsappClone/Pods-WhatsappClone.release.xcconfig"; sourceTree = "<group>"; };
 		E72C1E091C62684D41F5878F /* Pods_WhatsappClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhatsappClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +101,7 @@
 				220D56682B2200D5003A2155 /* WCSettingsViewController.swift */,
 				220D566A2B2200DF003A2155 /* WCCameraViewController.swift */,
 				220D566D2B23412D003A2155 /* WCWelcomeViewController.swift */,
+				220D56752B23879C003A2155 /* WCRegisterViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -105,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				220D56712B2346C5003A2155 /* WCWelcomeView.swift */,
+				220D56772B275F97003A2155 /* WCRegisterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,6 +264,7 @@
 				220D566B2B2200DF003A2155 /* WCCameraViewController.swift in Sources */,
 				220D56502B21F6B9003A2155 /* WCTabBarController.swift in Sources */,
 				220D564C2B21F6B9003A2155 /* AppDelegate.swift in Sources */,
+				220D56782B275F97003A2155 /* WCRegisterView.swift in Sources */,
 				220D56652B2200B9003A2155 /* WCStatusViewController.swift in Sources */,
 				220D56722B2346C5003A2155 /* WCWelcomeView.swift in Sources */,
 				220D56692B2200D5003A2155 /* WCSettingsViewController.swift in Sources */,
@@ -265,6 +272,7 @@
 				220D564E2B21F6B9003A2155 /* SceneDelegate.swift in Sources */,
 				220D56742B234744003A2155 /* Extensions.swift in Sources */,
 				220D56562B21F6B9003A2155 /* WhatsappClone.xcdatamodeld in Sources */,
+				220D56762B23879C003A2155 /* WCRegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
