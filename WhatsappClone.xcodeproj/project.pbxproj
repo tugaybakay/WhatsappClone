@@ -26,6 +26,14 @@
 		220D56762B23879C003A2155 /* WCRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56752B23879C003A2155 /* WCRegisterViewController.swift */; };
 		220D56782B275F97003A2155 /* WCRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56772B275F97003A2155 /* WCRegisterView.swift */; };
 		229545F92B35B1AF001B65A6 /* WCUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229545F82B35B1AF001B65A6 /* WCUser.swift */; };
+		229545FB2B35D209001B65A6 /* WCChatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229545FA2B35D209001B65A6 /* WCChatsView.swift */; };
+		229545FE2B35D4FF001B65A6 /* WCChatsViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229545FD2B35D4FF001B65A6 /* WCChatsViewViewModel.swift */; };
+		229546002B35D643001B65A6 /* WCChatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229545FF2B35D643001B65A6 /* WCChatsTableViewCell.swift */; };
+		229546022B3B4D4E001B65A6 /* WCChatsTableViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229546012B3B4D4E001B65A6 /* WCChatsTableViewViewModel.swift */; };
+		229546042B3B4DC5001B65A6 /* WCCreateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229546032B3B4DC5001B65A6 /* WCCreateProfileViewController.swift */; };
+		229546062B3B4DF0001B65A6 /* WCCreateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229546052B3B4DF0001B65A6 /* WCCreateProfileView.swift */; };
+		2295460B2B3DA0DD001B65A6 /* CRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2295460A2B3DA0DD001B65A6 /* CRUD.swift */; };
+		2295460D2B3DA410001B65A6 /* ContactsManagment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2295460C2B3DA410001B65A6 /* ContactsManagment.swift */; };
 		CF0724D89A1E4F87D73D927B /* Pods_WhatsappClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E72C1E091C62684D41F5878F /* Pods_WhatsappClone.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +59,14 @@
 		220D56752B23879C003A2155 /* WCRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRegisterViewController.swift; sourceTree = "<group>"; };
 		220D56772B275F97003A2155 /* WCRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRegisterView.swift; sourceTree = "<group>"; };
 		229545F82B35B1AF001B65A6 /* WCUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCUser.swift; sourceTree = "<group>"; };
+		229545FA2B35D209001B65A6 /* WCChatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCChatsView.swift; sourceTree = "<group>"; };
+		229545FD2B35D4FF001B65A6 /* WCChatsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCChatsViewViewModel.swift; sourceTree = "<group>"; };
+		229545FF2B35D643001B65A6 /* WCChatsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCChatsTableViewCell.swift; sourceTree = "<group>"; };
+		229546012B3B4D4E001B65A6 /* WCChatsTableViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCChatsTableViewViewModel.swift; sourceTree = "<group>"; };
+		229546032B3B4DC5001B65A6 /* WCCreateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCCreateProfileViewController.swift; sourceTree = "<group>"; };
+		229546052B3B4DF0001B65A6 /* WCCreateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCCreateProfileView.swift; sourceTree = "<group>"; };
+		2295460A2B3DA0DD001B65A6 /* CRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUD.swift; sourceTree = "<group>"; };
+		2295460C2B3DA410001B65A6 /* ContactsManagment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManagment.swift; sourceTree = "<group>"; };
 		750FD0A897CA08AB9EB1BA34 /* Pods-WhatsappClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhatsappClone.debug.xcconfig"; path = "Target Support Files/Pods-WhatsappClone/Pods-WhatsappClone.debug.xcconfig"; sourceTree = "<group>"; };
 		B296A3EA5037EB0061D18D39 /* Pods-WhatsappClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhatsappClone.release.xcconfig"; path = "Target Support Files/Pods-WhatsappClone/Pods-WhatsappClone.release.xcconfig"; sourceTree = "<group>"; };
 		E72C1E091C62684D41F5878F /* Pods_WhatsappClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhatsappClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,12 +105,15 @@
 		220D564A2B21F6B9003A2155 /* WhatsappClone */ = {
 			isa = PBXGroup;
 			children = (
+				229546092B3DA0CA001B65A6 /* DatabaseClient */,
 				220D565C2B21F6BA003A2155 /* Info.plist */,
+				220D56732B234744003A2155 /* Extensions.swift */,
+				229545FC2B35D3F3001B65A6 /* ViewModels */,
 				229545F72B35B19A001B65A6 /* Models */,
 				220D56702B234690003A2155 /* Resources */,
 				220D566F2B234681003A2155 /* Views */,
 				220D566C2B2200E9003A2155 /* Controllers */,
-				220D56732B234744003A2155 /* Extensions.swift */,
+				2295460C2B3DA410001B65A6 /* ContactsManagment.swift */,
 			);
 			path = WhatsappClone;
 			sourceTree = "<group>";
@@ -110,6 +129,7 @@
 				220D566D2B23412D003A2155 /* WCWelcomeViewController.swift */,
 				220D56752B23879C003A2155 /* WCRegisterViewController.swift */,
 				2208083C2B28BD18008FEEB5 /* WCVerificationViewController.swift */,
+				229546032B3B4DC5001B65A6 /* WCCreateProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -120,6 +140,9 @@
 				220D56712B2346C5003A2155 /* WCWelcomeView.swift */,
 				220D56772B275F97003A2155 /* WCRegisterView.swift */,
 				2208083E2B28BD31008FEEB5 /* WCVerificationView.swift */,
+				229545FA2B35D209001B65A6 /* WCChatsView.swift */,
+				229545FF2B35D643001B65A6 /* WCChatsTableViewCell.swift */,
+				229546052B3B4DF0001B65A6 /* WCCreateProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -143,6 +166,23 @@
 				229545F82B35B1AF001B65A6 /* WCUser.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		229545FC2B35D3F3001B65A6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				229545FD2B35D4FF001B65A6 /* WCChatsViewViewModel.swift */,
+				229546012B3B4D4E001B65A6 /* WCChatsTableViewViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		229546092B3DA0CA001B65A6 /* DatabaseClient */ = {
+			isa = PBXGroup;
+			children = (
+				2295460A2B3DA0DD001B65A6 /* CRUD.swift */,
+			);
+			path = DatabaseClient;
 			sourceTree = "<group>";
 		};
 		C1CA3DBC33EA036A77B6EF82 /* Pods */ = {
@@ -277,21 +317,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				229546062B3B4DF0001B65A6 /* WCCreateProfileView.swift in Sources */,
+				2295460B2B3DA0DD001B65A6 /* CRUD.swift in Sources */,
 				220D56672B2200CB003A2155 /* WCChatsViewController.swift in Sources */,
 				220D566B2B2200DF003A2155 /* WCCameraViewController.swift in Sources */,
+				229546002B35D643001B65A6 /* WCChatsTableViewCell.swift in Sources */,
 				220D56502B21F6B9003A2155 /* WCTabBarController.swift in Sources */,
 				220D564C2B21F6B9003A2155 /* AppDelegate.swift in Sources */,
 				229545F92B35B1AF001B65A6 /* WCUser.swift in Sources */,
 				220D56782B275F97003A2155 /* WCRegisterView.swift in Sources */,
+				2295460D2B3DA410001B65A6 /* ContactsManagment.swift in Sources */,
 				220D56652B2200B9003A2155 /* WCStatusViewController.swift in Sources */,
+				229545FE2B35D4FF001B65A6 /* WCChatsViewViewModel.swift in Sources */,
 				220D56722B2346C5003A2155 /* WCWelcomeView.swift in Sources */,
 				2208083D2B28BD18008FEEB5 /* WCVerificationViewController.swift in Sources */,
 				2208083F2B28BD31008FEEB5 /* WCVerificationView.swift in Sources */,
+				229545FB2B35D209001B65A6 /* WCChatsView.swift in Sources */,
+				229546042B3B4DC5001B65A6 /* WCCreateProfileViewController.swift in Sources */,
 				220D56692B2200D5003A2155 /* WCSettingsViewController.swift in Sources */,
 				220D566E2B23412D003A2155 /* WCWelcomeViewController.swift in Sources */,
 				220D564E2B21F6B9003A2155 /* SceneDelegate.swift in Sources */,
 				220D56742B234744003A2155 /* Extensions.swift in Sources */,
 				220D56562B21F6B9003A2155 /* WhatsappClone.xcdatamodeld in Sources */,
+				229546022B3B4D4E001B65A6 /* WCChatsTableViewViewModel.swift in Sources */,
 				220D56762B23879C003A2155 /* WCRegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -65,7 +65,6 @@ class WCRegisterViewController: UIViewController {
     @objc private func handleTap() {
         
         if let phoneNumber = registerView.getNumber(){
-            self.title = "edit number"
             
             PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { [weak self] verificationID, error in
                 if let error = error {

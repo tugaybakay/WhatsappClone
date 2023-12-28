@@ -55,9 +55,9 @@ class WCVerificationViewController: UIViewController {
                         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
                         self?.present(alert, animated: true)
                     }else{
-                        let destinationVC = WCTabBarController()
+                        let destinationVC = WCCreateProfileViewController()
                         destinationVC.modalPresentationStyle = .fullScreen
-                        self?.present(destinationVC, animated: true)
+                        self?.navigationController?.pushViewController(destinationVC, animated: true)
                     }
                 }
             }else{

@@ -14,11 +14,6 @@ class WCTabBarController: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .black
         setUpTabBars()
-        title = "deneme"
-        if Auth.auth().currentUser == nil {
-            navigationController?.pushViewController(WCWelcomeViewController(), animated: false)
-            print("deneme")
-        }
     }
 
     private func setUpTabBars() {

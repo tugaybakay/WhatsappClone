@@ -21,9 +21,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         try! Auth.auth().signOut()
+        
         if Auth.auth().currentUser == nil {
             window = UIWindow(windowScene: windowScene)
             let vc = UINavigationController(rootViewController: WCWelcomeViewController())
+            window?.rootViewController = vc
+            window?.makeKeyAndVisible()
+        }
+        else {
+            window = UIWindow(windowScene: windowScene)
+            let vc = WCTabBarController()
             window?.rootViewController = vc
             window?.makeKeyAndVisible()
         }

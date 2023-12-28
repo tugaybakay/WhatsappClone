@@ -20,6 +20,7 @@ class WCWelcomeViewController: UIViewController {
         welcomeView.delegate = self
         welcomeView.privacyTextView.delegate = self
         setUpConstraints()
+        ContactsManagment.shared.fetchAllContacts()
         
     }
     
