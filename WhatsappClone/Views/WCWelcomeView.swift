@@ -40,7 +40,7 @@ class WCWelcomeView: UIView {
         textView.isSelectable = true
         
 //        textView.dataDetectorTypes = .link
-        let attributedString = NSMutableAttributedString(string: "  Read our Privacy Policy, Tap \"Agree & Continue \" to accept the Terms of Service")
+        let attributedString = NSMutableAttributedString(string: "  Read our Privacy Policy, Tap \"Agree & Continue\" to accept the Terms of Service.")
 //        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16), range: NSRange(location: 0, length: attributedString.length))
         attributedString.addAttributes([.foregroundColor: UIColor.red,.font: UIFont.systemFont(ofSize: 17)], range: NSRange(location: 0, length: attributedString.length))
         let privacyPolicyRange = attributedString.mutableString.range(of: "Privacy Policy")
@@ -106,7 +106,7 @@ class WCWelcomeView: UIView {
         let userInterfaceStyle = traitCollection.userInterfaceStyle
         switch userInterfaceStyle {
         case .light, .unspecified:
-            privacyTextView.textColor = .black
+            privacyTextView.textColor = .gray
         case .dark:
             privacyTextView.textColor = .white
         @unknown default:

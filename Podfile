@@ -7,6 +7,9 @@ target 'WhatsappClone' do
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
   pod 'FirebaseStorage'
+  pod 'CountryPickerView'
+  pod "TextFieldFloatingPlaceholder"
+  pod 'KKPinCodeTextField'
  
   # Pods for WhatsappClone
 
