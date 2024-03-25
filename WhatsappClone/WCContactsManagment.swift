@@ -21,6 +21,8 @@ final class WCContactsManagment {
         }
     }
     var contacts: [WCContact] = []
+    var letters: [String] = []
+    var lettersCounts: [Int] = []
     
     private init() {}
     
@@ -49,20 +51,25 @@ final class WCContactsManagment {
                             if error == nil {
                                 if let contactsFromFirebase = contactsFromFirebase {
                                     for contact in self!.allContacts {
-                                        for user in contactsFromFirebase {                                            if user.phoneNumber == contact.phoneNumber {
+                                        for user in contactsFromFirebase {
+                                            if user.phoneNumber == contact.phoneNumber {
                                             let myContact = WCContact(name: contact.name, phoneNumber: user.phoneNumber, image: user.image)
                                                 self?.contacts.append(myContact)
                                             }
+                                            
                                         }
                                     }
+                                    self?.getLetters()
                                 }
                                 
                             }
                         })
+                        
                     }catch {
                         print("Rehber alınırken hata oluştu: \(error.localizedDescription)")
                     }
                 }
+                
             }else {
                 print("kullanıcı izin vermedi")
                 let alert = UIAlertController(title: "Rehbere Erişim",
@@ -83,6 +90,28 @@ final class WCContactsManagment {
                 }
             }
         }
+    }
+    
+    private func getLetters() {
+        let sortedContacts = contacts.sorted {
+            $0.name < $1.name
+        }
+        contacts = sortedContacts
+        var i = -1
+        for r in contacts {
+            if let char = r.name.first {
+                let letter = String(describing: char)
+                if !letters.contains(letter){
+                    letters.append(letter)
+                    i += 1
+                    lettersCounts.append(1)
+                }else{
+                    lettersCounts[i] += 1
+                }
+            }
+        }
+        
+        
     }
 }
 

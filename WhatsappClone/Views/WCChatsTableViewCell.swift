@@ -12,9 +12,9 @@ class WCChatsTableViewCell: UITableViewCell {
     let profileImage: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        let contact = WCContactsManagment.shared.contacts[0]
+        let contact = WCContactsManagment.shared.contacts.first
         imageView.backgroundColor = .black
-        if let data = Data(base64Encoded: contact.image ?? "", options: .ignoreUnknownCharacters){
+        if let data = Data(base64Encoded: contact?.image ?? "", options: .ignoreUnknownCharacters){
             imageView.image = UIImage(data: data)
         }
         imageView.layer.cornerRadius = 37.5

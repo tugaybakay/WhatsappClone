@@ -12,11 +12,6 @@ class WCSelectNewChatTableViewCell: UITableViewCell {
     let profileImage: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        let contact = WCContactsManagment.shared.contacts[0]
-        imageView.backgroundColor = .black
-        if let data = Data(base64Encoded: contact.image ?? "", options: .ignoreUnknownCharacters){
-            imageView.image = UIImage(data: data)
-        }
         imageView.layer.cornerRadius = 30
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -26,7 +21,7 @@ class WCSelectNewChatTableViewCell: UITableViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = WCContactsManagment.shared.contacts[0].name
+        
         label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
@@ -65,6 +60,15 @@ class WCSelectNewChatTableViewCell: UITableViewCell {
             nameLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
             nameLabel.leftAnchor.constraint(equalTo: profileImage.rightAnchor, constant: 20)
         ])
+    }
+    
+    func configure(index: Int) {
+        let contact = WCContactsManagment.shared.contacts[index]
+        nameLabel.text = contact.name
+        profileImage.backgroundColor = .black
+        if let data = Data(base64Encoded: contact.image ?? "", options: .ignoreUnknownCharacters){
+            profileImage.image = UIImage(data: data)
+        }
     }
 
 }

@@ -21,10 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-//        do{
-//            try! Auth.auth().signOut()
-//
-//        }
         
         if Auth.auth().currentUser != nil {
             window = UIWindow(windowScene: windowScene)
