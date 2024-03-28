@@ -20,6 +20,8 @@ final class WCContactsManagment {
             
         }
     }
+    
+    var filteredContacts: [WCContact] = []
     var contacts: [WCContact] = []
     var letters: [String] = []
     var lettersCounts: [Int] = []

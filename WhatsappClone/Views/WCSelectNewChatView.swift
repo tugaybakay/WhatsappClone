@@ -58,7 +58,7 @@ extension WCSelectNewChatView: UITableViewDataSource {
         for index in 0..<indexPath.section {
             count += WCContactsManagment.shared.lettersCounts[index]
         }
-        cell.configure(index: indexPath.row + count)
+        cell.configure(index: indexPath.row + count,flag: 0)
         return cell
     }
     

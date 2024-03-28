@@ -37,9 +37,9 @@ class WCChatsViewController: UIViewController {
     }
     
     @objc private func buttonDidTap() {
-        let vc = WCSelectNewChatViewController()
+        let vc = UINavigationController(rootViewController: WCSelectNewChatViewController())
         vc.modalPresentationStyle = .fullScreen
-        present(UINavigationController(rootViewController: vc), animated: true)
+        present(vc, animated: true)
     }
 
 }

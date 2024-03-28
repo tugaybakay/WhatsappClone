@@ -62,12 +62,22 @@ class WCSelectNewChatTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(index: Int) {
-        let contact = WCContactsManagment.shared.contacts[index]
-        nameLabel.text = contact.name
-        profileImage.backgroundColor = .black
-        if let data = Data(base64Encoded: contact.image ?? "", options: .ignoreUnknownCharacters){
-            profileImage.image = UIImage(data: data)
+    func configure(index: Int,flag: Int) {
+        if flag == 0 {
+            let contact = WCContactsManagment.shared.contacts[index]
+            nameLabel.text = contact.name
+            profileImage.backgroundColor = .black
+            if let data = Data(base64Encoded: contact.image ?? "", options: .ignoreUnknownCharacters){
+                profileImage.image = UIImage(data: data)
+            }
+        }
+        else if flag == 1 {
+            let contact = WCContactsManagment.shared.filteredContacts[index]
+            nameLabel.text = contact.name
+            profileImage.backgroundColor = .black
+            if let data = Data(base64Encoded: contact.image ?? "", options: .ignoreUnknownCharacters){
+                profileImage.image = UIImage(data: data)
+            }
         }
     }
 

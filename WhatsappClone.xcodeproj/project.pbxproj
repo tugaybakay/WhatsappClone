@@ -27,6 +27,7 @@
 		220D56742B234744003A2155 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56732B234744003A2155 /* Extensions.swift */; };
 		220D56762B23879C003A2155 /* WCRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56752B23879C003A2155 /* WCRegisterViewController.swift */; };
 		220D56782B275F97003A2155 /* WCRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56772B275F97003A2155 /* WCRegisterView.swift */; };
+		2245B8E92BB59AA200ECD3AF /* WCSearchContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2245B8E82BB59AA200ECD3AF /* WCSearchContactsView.swift */; };
 		229545F92B35B1AF001B65A6 /* WCUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229545F82B35B1AF001B65A6 /* WCUser.swift */; };
 		229545FB2B35D209001B65A6 /* WCChatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229545FA2B35D209001B65A6 /* WCChatsView.swift */; };
 		229545FE2B35D4FF001B65A6 /* WCChatsViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229545FD2B35D4FF001B65A6 /* WCChatsViewViewModel.swift */; };
@@ -65,6 +66,7 @@
 		220D56732B234744003A2155 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		220D56752B23879C003A2155 /* WCRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRegisterViewController.swift; sourceTree = "<group>"; };
 		220D56772B275F97003A2155 /* WCRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRegisterView.swift; sourceTree = "<group>"; };
+		2245B8E82BB59AA200ECD3AF /* WCSearchContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSearchContactsView.swift; sourceTree = "<group>"; };
 		229545F82B35B1AF001B65A6 /* WCUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCUser.swift; sourceTree = "<group>"; };
 		229545FA2B35D209001B65A6 /* WCChatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCChatsView.swift; sourceTree = "<group>"; };
 		229545FD2B35D4FF001B65A6 /* WCChatsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCChatsViewViewModel.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				229546052B3B4DF0001B65A6 /* WCCreateProfileView.swift */,
 				22CBA2172BA9EBD8004C784B /* WCSelectNewChatView.swift */,
 				22CBA2192BA9EDA6004C784B /* WCSelectNewChatTableViewCell.swift */,
+				2245B8E82BB59AA200ECD3AF /* WCSearchContactsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				229546062B3B4DF0001B65A6 /* WCCreateProfileView.swift in Sources */,
 				22CBA21A2BA9EDA6004C784B /* WCSelectNewChatTableViewCell.swift in Sources */,
 				2295460B2B3DA0DD001B65A6 /* CRUD.swift in Sources */,
+				2245B8E92BB59AA200ECD3AF /* WCSearchContactsView.swift in Sources */,
 				220435542B3EF8C300092453 /* WCContact.swift in Sources */,
 				220D56672B2200CB003A2155 /* WCChatsViewController.swift in Sources */,
 				220D566B2B2200DF003A2155 /* WCCameraViewController.swift in Sources */,
