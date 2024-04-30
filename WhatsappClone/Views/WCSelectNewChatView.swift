@@ -8,7 +8,7 @@
 import UIKit
 
 protocol WCSelectNewChatViewDelegate: AnyObject {
-    func didTapCell(_ tableView: UITableView, _ indexPath: IndexPath)
+    func didTapCell(contact: WCContact)
 }
 
 class WCSelectNewChatView: UIView {
@@ -95,6 +95,11 @@ extension WCSelectNewChatView: UITableViewDataSource {
 
 extension WCSelectNewChatView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didTapCell(tableView, indexPath)
+        var count = 0
+        for index in 0..<indexPath.section {
+            count += WCContactsManagment.shared.lettersCounts[index]
+        }
+        let contact = WCContactsManagment.shared.contacts[count + indexPath.row]
+        delegate?.didTapCell(contact: contact)
     }
 }

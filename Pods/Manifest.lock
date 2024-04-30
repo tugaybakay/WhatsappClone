@@ -755,8 +755,13 @@ PODS:
     - gRPC-Core/Interface (= 1.49.1)
   - gRPC-Core/Interface (1.49.1)
   - GTMSessionFetcher/Core (3.2.0)
+  - InputBarAccessoryView (5.1.0):
+    - InputBarAccessoryView/Core (= 5.1.0)
+  - InputBarAccessoryView/Core (5.1.0)
   - KKPinCodeTextField (1.0.0)
   - leveldb-library (1.22.2)
+  - MessageKit (3.3.0):
+    - InputBarAccessoryView (~> 5.1.0)
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
     - nanopb/encode (= 2.30909.1)
@@ -772,6 +777,7 @@ DEPENDENCIES:
   - FirebaseFirestore
   - FirebaseStorage
   - KKPinCodeTextField
+  - MessageKit (~> 3.3.0)
   - TextFieldFloatingPlaceholder
 
 SPEC REPOS:
@@ -793,8 +799,10 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
+    - InputBarAccessoryView
     - KKPinCodeTextField
     - leveldb-library
+    - MessageKit
     - nanopb
     - PromisesObjC
     - RecaptchaInterop
@@ -818,13 +826,15 @@ SPEC CHECKSUMS:
   "gRPC-C++": 2df8cba576898bdacd29f0266d5236fa0e26ba6a
   gRPC-Core: a21a60aefc08c68c247b439a9ef97174b0c54f96
   GTMSessionFetcher: 41b9ef0b4c08a6db4b7eb51a21ae5183ec99a2c8
+  InputBarAccessoryView: 19953f486a23e846e9487099f92bbe3456e46ce5
   KKPinCodeTextField: 63a1fb841fd6a412cf664ef64dc065fc6767bd3c
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
+  MessageKit: 1f07618183be6d92b648ba7a384aafa097362a00
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   TextFieldFloatingPlaceholder: b203efe694d94d86f03bb2de65613ba6c8ba5464
 
-PODFILE CHECKSUM: f8432dfa91947de96f0da841e6a199e485a5089b
+PODFILE CHECKSUM: 45fbd0fe15af547d1b727321f403ab0d7d6d7b87
 
 COCOAPODS: 1.12.1

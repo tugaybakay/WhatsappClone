@@ -8,7 +8,7 @@
 import UIKit
 
 class WCSelectNewChatViewController: UIViewController {
-
+    
     let chatView = WCSelectNewChatView()
     let searchView = WCSearchContactsView()
     
@@ -25,11 +25,12 @@ class WCSelectNewChatViewController: UIViewController {
         view.addSubviews(searchView,chatView,searchBar)
         setUpConstraints()
         title = "New Chat"
+        chatView.delegate = self
         searchBar.delegate = self
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "x.circle"), style: .done, target: self, action: #selector(barButtonDidTap))
     }
-
+    
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
@@ -53,12 +54,16 @@ class WCSelectNewChatViewController: UIViewController {
     @objc private func barButtonDidTap() {
         self.dismiss(animated: true)
     }
-
+    
+    
 }
 
+
 extension WCSelectNewChatViewController: WCSelectNewChatViewDelegate {
-    func didTapCell(_ tableView: UITableView, _ indexPath: IndexPath) {
-        // TODO: SEGUE
+    func didTapCell(contact: WCContact) {
+        let vc = WCChatWithViewController(user: contact)
+//        vc.title = contact.name.uppercased()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

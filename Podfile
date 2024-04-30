@@ -10,6 +10,7 @@ target 'WhatsappClone' do
   pod 'CountryPickerView'
   pod "TextFieldFloatingPlaceholder"
   pod 'KKPinCodeTextField'
+  pod 'MessageKit', '~> 3.3.0'
  
   # Pods for WhatsappClone
 
