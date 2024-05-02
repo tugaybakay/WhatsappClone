@@ -24,6 +24,24 @@ final class WCChatsView: UIView {
         addSubviews(tableView)
         setUpConstraints()
         prepareTableView()
+        
+        WCFirabaseCRUD.shared.getRooms { result in
+            switch result {
+            case .success(let rooms):
+                for room in rooms {
+                    WCFirabaseCRUD.shared.getLastMessages(roomid: room.roomid) { result in
+                        switch result {
+                        case .success(let message):
+                            print("geldii : \(message.text)")
+                        case .failure:
+                            break
+                        }
+                    }
+                }
+            case .failure:
+                break
+            }
+        }
     }
     
     required init?(coder: NSCoder) {

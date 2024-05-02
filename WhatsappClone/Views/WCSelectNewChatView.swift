@@ -72,7 +72,6 @@ extension WCSelectNewChatView: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        print(WCContactsManagment.shared.letters.count)
         return WCContactsManagment.shared.letters.count
     }
     

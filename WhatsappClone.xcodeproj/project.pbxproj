@@ -27,6 +27,7 @@
 		220D56742B234744003A2155 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56732B234744003A2155 /* Extensions.swift */; };
 		220D56762B23879C003A2155 /* WCRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56752B23879C003A2155 /* WCRegisterViewController.swift */; };
 		220D56782B275F97003A2155 /* WCRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220D56772B275F97003A2155 /* WCRegisterView.swift */; };
+		2240931B2BE42DC00015A7A9 /* WCRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240931A2BE42DC00015A7A9 /* WCRoom.swift */; };
 		2245B8E92BB59AA200ECD3AF /* WCSearchContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2245B8E82BB59AA200ECD3AF /* WCSearchContactsView.swift */; };
 		22760D892BDD16790006AF34 /* WCMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22760D882BDD16790006AF34 /* WCMessage.swift */; };
 		229545F92B35B1AF001B65A6 /* WCUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229545F82B35B1AF001B65A6 /* WCUser.swift */; };
@@ -69,6 +70,7 @@
 		220D56732B234744003A2155 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		220D56752B23879C003A2155 /* WCRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRegisterViewController.swift; sourceTree = "<group>"; };
 		220D56772B275F97003A2155 /* WCRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRegisterView.swift; sourceTree = "<group>"; };
+		2240931A2BE42DC00015A7A9 /* WCRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCRoom.swift; sourceTree = "<group>"; };
 		2245B8E82BB59AA200ECD3AF /* WCSearchContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSearchContactsView.swift; sourceTree = "<group>"; };
 		22760D882BDD16790006AF34 /* WCMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCMessage.swift; sourceTree = "<group>"; };
 		229545F82B35B1AF001B65A6 /* WCUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCUser.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				229545F82B35B1AF001B65A6 /* WCUser.swift */,
 				220435532B3EF8C300092453 /* WCContact.swift */,
 				22760D882BDD16790006AF34 /* WCMessage.swift */,
+				2240931A2BE42DC00015A7A9 /* WCRoom.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				220D56502B21F6B9003A2155 /* WCTabBarController.swift in Sources */,
 				220D564C2B21F6B9003A2155 /* AppDelegate.swift in Sources */,
 				229545F92B35B1AF001B65A6 /* WCUser.swift in Sources */,
+				2240931B2BE42DC00015A7A9 /* WCRoom.swift in Sources */,
 				220D56782B275F97003A2155 /* WCRegisterView.swift in Sources */,
 				2295460D2B3DA410001B65A6 /* WCContactsManagment.swift in Sources */,
 				220D56652B2200B9003A2155 /* WCStatusViewController.swift in Sources */,

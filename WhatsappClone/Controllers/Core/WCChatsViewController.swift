@@ -20,6 +20,7 @@ class WCChatsViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .done, target: self, action: #selector(buttonDidTap))
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

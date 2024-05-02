@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestoreInternal
  
 struct WCMessage {
+    let roomid: String
     let text: String
     let reciever: String
     let date: Timestamp

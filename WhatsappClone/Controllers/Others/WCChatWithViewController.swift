@@ -25,6 +25,31 @@ class WCChatWithViewController: MessagesViewController {
 
 //    let chatView = WCChatWithView()
     var user: WCContact!
+    var roomid: String? {
+        didSet {
+            WCFirabaseCRUD.shared.getMessages(roomid: roomid ?? "") { [weak self] result in
+                guard let strongSelf = self else { return }
+                switch result {
+                case .success(let messagesFromFirebase):
+                    strongSelf.messages.removeAll()
+                    for message in messagesFromFirebase {
+                        if message.reciever == strongSelf.selfSender.senderId {
+                            let m = Message(sender: Sender(senderId: message.sender, displayName: ""), messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
+                            strongSelf.messages.append(m)
+                        }else {
+                            let m = Message(sender: strongSelf.selfSender, messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
+                            strongSelf.messages.append(m)
+                        }
+                    }
+                    strongSelf.messagesCollectionView.reloadData()
+                    strongSelf.messagesCollectionView.scrollToBottom(animated: true)
+                case .failure:
+                    break
+                }
+            }
+        }
+    }
+    
     private let selfSender = Sender(senderId: Auth.auth().currentUser?.phoneNumber ?? "", displayName: Auth.auth().currentUser?.phoneNumber ?? "")
     private var messages: [Message] = []
     
@@ -47,26 +72,13 @@ class WCChatWithViewController: MessagesViewController {
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesDisplayDelegate = self
-        WCFirabaseCRUD.shared.getMessages(receiver: user.phoneNumber) { [weak self] result in
-            guard let strongSelf = self else { return }
-            switch result {
-            case .success(let allMessages):
-                for message in allMessages {
-                    print("sender:  \(message.sender), message \(message.text)")
-                    if message.sender == strongSelf.selfSender.senderId {
-                        
-                        strongSelf.messages.append(Message(sender: strongSelf.selfSender, messageId: "", sentDate: .now, kind: .text(message.text)))
-                    }else {
-                        
-                        strongSelf.messages.append(Message(sender: Sender(senderId: message.sender, displayName: ""), messageId: "1", sentDate: .now, kind: .text(message.text)))
-                    }
-                    
-                }
-                self?.messagesCollectionView.reloadData()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        
+        WCFirabaseCRUD.shared.checkRoom(receiver: user.phoneNumber) { [weak self] roomid in
+            self?.roomid = roomid
         }
+        
+        
+        
         messageInputBar.sendButton.setImage(UIImage(systemName: "paperplane"), for: .normal)
         messageInputBar.sendButton.title = ""
         messagesCollectionView.backgroundView = UIImageView(image: UIImage(named: "wallpaper1"))
@@ -103,7 +115,8 @@ class WCChatWithViewController: MessagesViewController {
     
     
     @objc private func sendButtonDidTap() {
-        let message = WCMessage(text: messageInputBar.inputTextView.text, reciever: user.phoneNumber, date: .init(date: .now), sender: Auth.auth().currentUser?.phoneNumber ?? "")
+        guard let roomid = roomid else { return }
+        let message = WCMessage(roomid: roomid,text: messageInputBar.inputTextView.text, reciever: user.phoneNumber, date: .init(date: .now), sender: Auth.auth().currentUser?.phoneNumber ?? "")
         WCFirabaseCRUD.shared.sendMessage(message)
         messageInputBar.inputTextView.text = ""
 
