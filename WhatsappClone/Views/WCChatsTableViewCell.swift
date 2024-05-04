@@ -27,7 +27,7 @@ class WCChatsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Eyüp Gültekin"
-        label.font = .boldSystemFont(ofSize: 22)
+        label.font = .boldSystemFont(ofSize: 19)
         return label
     }()
     
@@ -37,20 +37,19 @@ class WCChatsTableViewCell: UITableViewCell {
 //        label.text = "kanka squat yaparken dizim koptu, yardım!"
         label.numberOfLines = 2
         label.textColor = .secondaryLabel
-        label.font = .systemFont(ofSize: 17)
+        label.font = .systemFont(ofSize: 15.5)
         
         
-        let imageAttachment = NSTextAttachment()
-        let image = UIImage(named: "double-tick")?.withRenderingMode(.alwaysTemplate)
-        imageAttachment.adjustsImageSizeForAccessibilityContentSizeCategory = true
-        imageAttachment.image = image?.withTintColor(.systemBlue)// Burada kendi ikonunuzun ismini verin
+//        let imageAttachment = NSTextAttachment()
+//        let image = UIImage(named: "double-tick")?.withRenderingMode(.alwaysTemplate)
+//        imageAttachment.adjustsImageSizeForAccessibilityContentSizeCategory = true
+//        imageAttachment.image = image?.withTintColor(.systemBlue)// Burada kendi ikonunuzun ismini verin
         
-        imageAttachment.bounds = CGRect(x: 0, y: -3, width: 18, height: 18)
-        let attributedString = NSMutableAttributedString(attributedString: NSAttributedString(attachment: imageAttachment))
-        let textAfterImage = NSMutableAttributedString(string: " Kanka squat yaparken dizim koptu, yardım!") // İkonunuzdan sonra gelecek metni burada belirtin
-        attributedString.append(textAfterImage)
-        label.attributedText = attributedString
-        
+//        imageAttachment.bounds = CGRect(x: 0, y: -3, width: 18, height: 18)
+//        let attributedString = NSMutableAttributedString(attributedString: NSAttributedString(attachment: imageAttachment))
+//        attributedString.append(textAfterImage)
+//        label.attributedText = attributedString
+//
         return label
     }()
     
@@ -83,13 +82,13 @@ class WCChatsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        profileImage.image = nil
-//        nameLabel.text = nil
-//        messageLabel.text = nil
-//        dateLabel.text = nil
-//    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        profileImage.image = nil
+        nameLabel.text = nil
+        messageLabel.text = nil
+        dateLabel.text = nil
+    }
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
@@ -98,7 +97,7 @@ class WCChatsTableViewCell: UITableViewCell {
             profileImage.heightAnchor.constraint(equalToConstant: 75),
             profileImage.widthAnchor.constraint(equalToConstant: 75),
             
-            nameLabel.topAnchor.constraint(equalTo: profileImage.topAnchor, constant: -5),
+            nameLabel.topAnchor.constraint(equalTo: profileImage.topAnchor, constant: 5),
             nameLabel.leftAnchor.constraint(equalTo: profileImage.rightAnchor, constant: 15),
             nameLabel.heightAnchor.constraint(equalToConstant: profileImage.frame.height / 3),
             
@@ -108,8 +107,30 @@ class WCChatsTableViewCell: UITableViewCell {
             messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
             
             dateLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
-            dateLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15)
+            dateLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20)
         ])
     }
 
+    
+    func configure(with conversation: WCConversation) {
+        self.nameLabel.text = conversation.contact.name
+        self.messageLabel.text = conversation.text
+        if let data = Data(base64Encoded: conversation.contact.image ?? "", options: .ignoreUnknownCharacters) {
+            self.profileImage.image = UIImage(data: data)
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/YYYY"
+        let messageDate = conversation.date.dateValue()
+        let messageDateString = dateFormatter.string(from: conversation.date.dateValue())
+        
+        let today = Date.now
+        let distance = today.distance(to: conversation.date.dateValue())
+        if distance > -86400 {
+            dateLabel.text = "Today"
+        }else if distance > -86400 * 2 {
+            dateLabel.text = "Yesterday"
+        }else {
+            dateLabel.text = messageDateString
+        }
+    }
 }

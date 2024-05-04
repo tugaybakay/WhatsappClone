@@ -15,6 +15,7 @@ class WCChatsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubview(chatView)
+        chatView.delegate = self
         setUpConstraints()
         title = "Chats"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -43,4 +44,13 @@ class WCChatsViewController: UIViewController {
         present(vc, animated: true)
     }
 
+}
+
+extension WCChatsViewController: WCChatsViewDelegate {
+    func didSelectRow(conversation: WCConversation) {
+        let destinationVC = WCChatWithViewController(user: conversation.contact,roomid: conversation.roomid)
+        let navbar = UINavigationController(rootViewController: destinationVC)
+        navbar.modalPresentationStyle = .fullScreen
+        self.present(navbar, animated: true)
+    }
 }

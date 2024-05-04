@@ -59,7 +59,29 @@ final class WCFirabaseCRUD {
     }
     
     
-    func getLastMessages(roomid: String,_ completion: @escaping (Result<WCMessage,Error>) -> Void) {
+    func getContact(phoneNumber: String, _ completion: @escaping (WCContact?) -> Void) {
+        let db = Firestore.firestore()
+        let collection = db.collection("users")
+        
+        collection.whereField("number", isEqualTo: phoneNumber).getDocuments { snapshot, error in
+            if error == nil {
+                let docs = snapshot!.documents
+                for doc in docs {
+                    let data = doc.data()
+                    let name = data["name"] as! String
+                    let number = data["number"] as! String
+                    let profileImage = data["profileImage"] as! String
+                    let contact = WCContact(name: name, phoneNumber: number, image: profileImage)
+                    completion(contact)
+                }
+            }else {
+                print(error!.localizedDescription)
+                completion(nil)
+            }
+        }
+    }
+    
+    func getLastMessages(roomid: String,_ completion: @escaping (WCMessage?) -> Void) {
         
         
         DispatchQueue.main.async {
@@ -82,13 +104,14 @@ final class WCFirabaseCRUD {
                     let date = data["date"] as! Timestamp
                     let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender)
 //                    print(text)
-                    completion(.success(message))
+                    completion(message)
                     
                 }
+                completion(nil)
                     
             }else {
                 print(error!.localizedDescription)
-                completion(.failure(error!))
+                completion(nil)
             }
         }
 
@@ -188,13 +211,11 @@ final class WCFirabaseCRUD {
                 if docs.isEmpty {
                     let roomid = UUID().uuidString
                     self.setRoom(roomid,receiver)
-                    print("roomid from local \(roomid)")
                     completion(roomid)
                 }else {
                     for doc in docs {
                         let data = doc.data()
                         let roomid = data["roomid"] as! String
-                        print("roomid from firebase: \(roomid)")
                         completion(roomid)
                     }
                 }
@@ -210,5 +231,29 @@ final class WCFirabaseCRUD {
         
         let data: [String:Any] = ["roomid": roomid, "user1": receiver, "user2": selfPhone]
         collection.addDocument(data: data)
+    }
+    
+    func checkUser(phoneNumber: String, _ completion: @escaping (Result<WCContact?,Error>) -> Void ) {
+        let db = Firestore.firestore()
+        let collection = db.collection("users")
+        
+        collection.whereField("number", isEqualTo: phoneNumber).getDocuments { snapshot, error in
+            if error == nil {
+                let docs = snapshot!.documents
+                if docs.isEmpty{
+                    completion(.success(nil))
+                }
+                for doc in docs {
+                    let data = doc.data()
+                    let name = data["name"] as! String
+                    let profileImage = data["profileImage"] as! String
+                    let user = WCContact(name: name, phoneNumber: phoneNumber, image: profileImage)
+                    completion(.success(user))
+                }
+            }else {
+                print(error!.localizedDescription)
+                completion(.failure(error!))
+            }
+        }
     }
 }

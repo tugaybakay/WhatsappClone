@@ -58,41 +58,85 @@ class WCChatWithViewController: MessagesViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    init(user: WCContact, roomid: String) {
+        self.user = user
+        self.roomid = roomid
+        super.init(nibName: nil, bundle: nil)
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
+        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
+        
         let phoneBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "phone"), style: .plain, target: nil, action: nil)
         let cameraBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "video"), style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItems = [cameraBarButtonItem,phoneBarButtonItem]
+        navigationItem.leftBarButtonItem = backButton
         
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesDisplayDelegate = self
         
-        WCFirabaseCRUD.shared.checkRoom(receiver: user.phoneNumber) { [weak self] roomid in
-            self?.roomid = roomid
+//        WCFirabaseCRUD.shared.checkRoom(receiver: user.phoneNumber) { [weak self] roomid in
+//            self?.roomid = roomid
+//        }
+        
+        if roomid == nil {
+            WCFirabaseCRUD.shared.checkRoom(receiver: user.phoneNumber) { [weak self] roomid in
+                self?.roomid = roomid
+            }
+        }else {
+            WCFirabaseCRUD.shared.getMessages(roomid: roomid ?? "") { [weak self] result in
+                guard let strongSelf = self else { return }
+                switch result {
+                case .success(let messagesFromFirebase):
+                    strongSelf.messages.removeAll()
+                    for message in messagesFromFirebase {
+                        if message.reciever == strongSelf.selfSender.senderId {
+                            let m = Message(sender: Sender(senderId: message.sender, displayName: ""), messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
+                            strongSelf.messages.append(m)
+                        }else {
+                            let m = Message(sender: strongSelf.selfSender, messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
+                            strongSelf.messages.append(m)
+                        }
+                    }
+                    strongSelf.messagesCollectionView.reloadData()
+                    strongSelf.messagesCollectionView.scrollToBottom(animated: true)
+                case .failure:
+                    break
+                }
+            }
         }
         
         
         
         messageInputBar.sendButton.setImage(UIImage(systemName: "paperplane"), for: .normal)
         messageInputBar.sendButton.title = ""
-        messagesCollectionView.backgroundView = UIImageView(image: UIImage(named: "wallpaper1"))
+        let userInterfaceStyle = traitCollection.userInterfaceStyle
+        if userInterfaceStyle == .dark {
+            messagesCollectionView.backgroundView = UIImageView(image: UIImage(named: "wallpaper2"))
+        }else {
+            messagesCollectionView.backgroundView = UIImageView(image: UIImage(named: "wallpaper1"))
+        }
+        
 //        view.addSubview(chatView)
         view.backgroundColor = .systemBackground
 //        setUpConstraints()
-        let titleView =  ImageTextNavBarView(frame: .zero)
+        
+        let titleView =  ImageTextNavBarView(frame: navigationController?.navigationBar.frame ?? .zero)
         
         if let data = Data(base64Encoded: user.image ?? "", options: .ignoreUnknownCharacters),let image = UIImage(data: data) {
             titleView.setImage(image, text: user.name)
         }else{
             titleView.setImage(UIImage(systemName: "circle.fill")!.withTintColor(.black), text: user.name)
         }
-        titleView.sizeToFit()
+//        titleView.sizeToFit()
         navigationItem.titleView = titleView
         
         messageInputBar.inputTextView.layer.borderWidth = 0.3
@@ -122,6 +166,9 @@ class WCChatWithViewController: MessagesViewController {
 
     }
 
+    @objc func didTapBackButton() {
+        self.dismiss(animated: true)
+    }
 }
 
 extension WCChatWithViewController: MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
@@ -157,8 +204,6 @@ extension WCChatWithViewController: MessagesDataSource, MessagesLayoutDelegate, 
 //        }
 //
 //    }
-    
-    
 }
 
 class ImageTextNavBarView: UIView {
@@ -189,16 +234,18 @@ class ImageTextNavBarView: UIView {
       imageView.layer.cornerRadius = 40 / 2
       imageView.contentMode = .scaleAspectFill
       imageView.clipsToBounds = true
-
+      
+      let margin = UIScreen.main.bounds.width / -2.44
+      
     NSLayoutConstraint.activate([
-      imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -180),
+      imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin ),
       imageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
       imageView.heightAnchor.constraint(equalToConstant: 40),
       imageView.widthAnchor.constraint(equalToConstant: 40),
 
-      titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 15),
+      titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
       titleLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-      titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+//      titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
     ])
       
   }
@@ -212,9 +259,5 @@ class ImageTextNavBarView: UIView {
     imageView.image = image
     titleLabel.text = text
   }
-    
-    @objc func imageDidTap() {
-        print("tıklandı!")
-    }
     
 }

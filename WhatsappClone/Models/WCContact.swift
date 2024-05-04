@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct WCContact {
-    let name: String
+struct WCContact{
+    var name: String
     let phoneNumber: String
     var image: String?
 }

@@ -55,7 +55,7 @@ final class WCContactsManagment {
                                     for contact in self!.allContacts {
                                         for user in contactsFromFirebase {
                                             if user.phoneNumber == contact.phoneNumber {
-                                            let myContact = WCContact(name: contact.name, phoneNumber: user.phoneNumber, image: user.image)
+                                                let myContact = WCContact(name: contact.name, phoneNumber: user.phoneNumber, image: user.image)
                                                 self?.contacts.append(myContact)
                                             }
                                             
@@ -75,18 +75,18 @@ final class WCContactsManagment {
             }else {
                 print("kullanıcı izin vermedi")
                 let alert = UIAlertController(title: "Rehbere Erişim",
-                                                              message: "Uygulamanın bazı özelliklerini kullanabilmek için rehber erişimi gerekiyor. Lütfen ayarlardan izini etkinleştirin.",
-                                                              preferredStyle: .alert)
-                                
+                                              message: "Uygulamanın bazı özelliklerini kullanabilmek için rehber erişimi gerekiyor. Lütfen ayarlardan izini etkinleştirin.",
+                                              preferredStyle: .alert)
+                
                 alert.addAction(UIAlertAction(title: "Ayarlar", style: .default, handler: { (_) in
-                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(settingsURL, options: [:]) { _ in
+                    if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(settingsURL, options: [:]) { _ in
+                        }
                     }
-                                }
-                            }))
-                                
+                }))
+                
                 alert.addAction(UIAlertAction(title: "İptal", style: .cancel, handler: nil))
-                                
+                
                 if let vc = UIApplication.shared.keyWindow?.rootViewController {
                     vc.present(alert, animated: true)
                 }
@@ -113,7 +113,29 @@ final class WCContactsManagment {
             }
         }
         
-        
+    }
+
+    func getContactName(phoneNumber: String) -> WCContact?{
+        for contact in contacts {
+            if contact.phoneNumber == phoneNumber {
+                return contact
+            }
+        }
+        return nil
+    }
+    
+    func formatPhoneNumber(phoneNumber: String) -> String {
+        var formattedNumber = ""
+
+        for (index, digit) in phoneNumber.enumerated() {
+            if index != 0 && index % 3 == 0 && index % 4 != 0 || index == 11{
+                formattedNumber += " "
+            }
+
+            formattedNumber += String(digit)
+        }
+
+        return formattedNumber
     }
 }
 

@@ -55,9 +55,24 @@ class WCVerificationViewController: UIViewController {
                         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
                         self?.present(alert, animated: true)
                     }else{
-                        let destinationVC = WCCreateProfileViewController()
-                        destinationVC.modalPresentationStyle = .fullScreen
-                        self?.navigationController?.pushViewController(destinationVC, animated: true)
+                        WCFirabaseCRUD.shared.checkUser(phoneNumber: user.phoneNumber) { result in
+                            switch result {
+                            case .success(let user):
+
+                                if let user = user {
+                                    let destinationVC = WCTabBarController()
+                                    destinationVC.modalPresentationStyle = .fullScreen
+                                    self?.present(destinationVC, animated: true)
+                                }else{
+                                    let destinationVC = WCCreateProfileViewController()
+                                    destinationVC.modalPresentationStyle = .fullScreen
+                                    self?.navigationController?.pushViewController(destinationVC, animated: true)
+                                }
+                            case .failure:
+                                break
+                            }
+                        }
+                        
                     }
                 }
             }else{
