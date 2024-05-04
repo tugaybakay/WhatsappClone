@@ -14,4 +14,5 @@ struct WCMessage {
     let reciever: String
     let date: Timestamp
     let sender: String
+    let image: UIImage?
 }

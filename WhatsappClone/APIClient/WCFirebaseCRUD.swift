@@ -44,16 +44,32 @@ final class WCFirabaseCRUD {
             let db = Firestore.firestore()
             let messagesCollection = db.collection("messages")
             
+            if let image = message.image, let data = image.jpegData(compressionQuality: 0.4) {
+                let base64Image = data.base64EncodedString()
+                let dataToAdd: [String:Any] = [
+                    "roomid": message.roomid,
+                    "senderPhone": message.sender,
+                    "text": "",
+                    "date": message.date,
+                    "receiver": message.reciever,
+                    "image": base64Image
+                ]
+                messagesCollection.addDocument(data: dataToAdd)
+            }else {
+                let dataToAdd: [String:Any] = [
+                    "roomid": message.roomid,
+                    "senderPhone": message.sender,
+                    "text": message.text,
+                    "date": message.date,
+                    "receiver": message.reciever,
+                    "image": ""
+                ]
+                messagesCollection.addDocument(data: dataToAdd)
+            }
            
-            let dataToAdd: [String:Any] = [
-                "roomid": message.roomid,
-                "senderPhone": message.sender,
-                "text": message.text,
-                "date": message.date,
-                "receiver": message.reciever
-            ]
             
-            messagesCollection.addDocument(data: dataToAdd)
+            
+           
         }
         
     }
@@ -82,8 +98,6 @@ final class WCFirabaseCRUD {
     }
     
     func getLastMessages(roomid: String,_ completion: @escaping (WCMessage?) -> Void) {
-        
-        
         DispatchQueue.main.async {
             let db = Firestore.firestore()
             let messageCollection = db.collection("messages")
@@ -98,11 +112,14 @@ final class WCFirabaseCRUD {
                 for doc in snapshot!.documents {
                     
                     let data = doc.data()
-                    let text = data["text"] as! String
+                    var text = data["text"] as! String
                     let sender = data["senderPhone"] as! String
                     let receiver = data["receiver"] as! String
                     let date = data["date"] as! Timestamp
-                    let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender)
+                    if text == "" {
+                        text = "~Photo"
+                    }
+                    let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender,image: nil)
 //                    print(text)
                     completion(message)
                     
@@ -146,8 +163,18 @@ final class WCFirabaseCRUD {
                     let sender = data["senderPhone"] as! String
                     let receiver = data["receiver"] as! String
                     let date = data["date"] as! Timestamp
-                    let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender)
-                    allMessages.append(message)
+                    let image = data["image"] as! String
+                    
+                    if text == "" {
+                        if let data = Data(base64Encoded: image), let image = UIImage(data: data) {
+                            let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender, image: image)
+                            allMessages.append(message)
+                        }
+                    }else {
+                        let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender, image: nil)
+                        allMessages.append(message)
+                    }
+                    
                 }
                     completion(.success(allMessages))
                     allMessages.removeAll()
