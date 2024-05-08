@@ -9,6 +9,7 @@ import UIKit
 import MessageKit
 import FirebaseAuth
 import Photos
+import FirebaseFirestore
 
 struct Message: MessageType {
     var sender: SenderType
@@ -26,27 +27,11 @@ class WCChatWithViewController: MessagesViewController {
 
 //    let chatView = WCChatWithView()
     var user: WCContact!
+    var listener: ListenerRegistration?
     var roomid: String? {
         didSet {
-            WCFirabaseCRUD.shared.getMessages(roomid: roomid ?? "") { [weak self] result in
-                guard let strongSelf = self else { return }
-                switch result {
-                case .success(let messagesFromFirebase):
-                    strongSelf.messages.removeAll()
-                    for message in messagesFromFirebase {
-                        if message.reciever == strongSelf.selfSender.senderId {
-                            let m = Message(sender: Sender(senderId: message.sender, displayName: ""), messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
-                            strongSelf.messages.append(m)
-                        }else {
-                            let m = Message(sender: strongSelf.selfSender, messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
-                            strongSelf.messages.append(m)
-                        }
-                    }
-                    strongSelf.messagesCollectionView.reloadData()
-                    strongSelf.messagesCollectionView.scrollToBottom(animated: true)
-                case .failure:
-                    break
-                }
+            if roomid != nil {
+                getMessages(with: roomid!)
             }
         }
         
@@ -70,13 +55,31 @@ class WCChatWithViewController: MessagesViewController {
         fatalError("init(coder:) has not been implemented")
     }
 //
-
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.prefersLargeTitles = false
+
+//        WCFirabaseCRUD.shared.checkRoom(receiver: user.phoneNumber) { [weak self] roomid in
+//            self?.roomid = roomid
+//        }
         
+        if roomid == nil {
+            WCFirabaseCRUD.shared.checkRoom(receiver: user.phoneNumber) { [weak self] roomid in
+                self?.roomid = roomid
+            }
+        }else {
+            print(roomid!)
+            getMessages(with: roomid!)
+        }
+        
+        prepareNavbar()
+        prepareMessageKit()
+        view.backgroundColor = .systemBackground
+        
+        
+    }
+    
+    func prepareMessageKit() {
         let button   = UIButton(type: UIButton.ButtonType.system) as UIButton
         messageInputBar.inputTextView.text = "adjlaldkjaslkjdlkajsldkjalkdjalsjdlsajdlsajdljasldjasldjlasjdljasldjasljdlasjdljadljaslkdjasjldadasdlasj"
         messageInputBar.inputTextView.text.removeAll()
@@ -101,71 +104,6 @@ class WCChatWithViewController: MessagesViewController {
         messageInputBar.inputTextView.textContainer.exclusionPaths = [exclusivePath]
         button.sizeToFit()
         button.addTarget(self, action: #selector(didTapPhotoButton), for: .touchUpInside)
-
-        
-//        messageInputBar.inputTextView.textContainer.exclusionPaths = -90
-        
-        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
-        
-        let phoneBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "phone"), style: .plain, target: nil, action: nil)
-        let cameraBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "video"), style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItems = [cameraBarButtonItem,phoneBarButtonItem]
-        navigationItem.leftBarButtonItem = backButton
-        
-        messagesCollectionView.messagesLayoutDelegate = self
-        messagesCollectionView.messagesDataSource = self
-        messagesCollectionView.messagesDisplayDelegate = self
-        
-//        WCFirabaseCRUD.shared.checkRoom(receiver: user.phoneNumber) { [weak self] roomid in
-//            self?.roomid = roomid
-//        }
-        
-        if roomid == nil {
-            WCFirabaseCRUD.shared.checkRoom(receiver: user.phoneNumber) { [weak self] roomid in
-                self?.roomid = roomid
-            }
-        }else {
-            WCFirabaseCRUD.shared.getMessages(roomid: roomid ?? "") { [weak self] result in
-                guard let strongSelf = self else { return }
-                switch result {
-                case .success(let messagesFromFirebase):
-                    strongSelf.messages.removeAll()
-                    for message in messagesFromFirebase {
-                        if message.reciever == strongSelf.selfSender.senderId {
-                            if message.text != ""{
-                                let m = Message(sender: Sender(senderId: message.sender, displayName: ""), messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
-                                strongSelf.messages.append(m)
-                            }else {
-                                
-//                                UIImageWriteToSavedPhotosAlbum(message.image!, nil, nil, nil)
-                                let media = ImageMediaItem(url: nil, placeholderImage: message.image!, size: message.image!.size)
-                                let m = Message(sender: Sender(senderId: message.sender, displayName: ""), messageId: "", sentDate: message.date.dateValue(), kind: .photo(media))
-                                strongSelf.messages.append(m)
-                            }
-                            
-                        }else {
-                            if message.text != "" {
-                                let m = Message(sender: strongSelf.selfSender, messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
-                                strongSelf.messages.append(m)
-                            }else {
-//                                UIImageWriteToSavedPhotosAlbum(message.image!, nil, nil, nil)
-                                let media = ImageMediaItem(url: nil, placeholderImage: message.image!, size: message.image!.size)
-                                let m = Message(sender: strongSelf.selfSender, messageId: "", sentDate: message.date.dateValue(), kind: .photo(media))
-                                strongSelf.messages.append(m)
-                                
-                            }
-                            
-                        }
-                    }
-                    strongSelf.messagesCollectionView.reloadData()
-                    strongSelf.messagesCollectionView.scrollToBottom(animated: true)
-                case .failure:
-                    break
-                }
-            }
-        }
-        
-        
         
         messageInputBar.sendButton.setImage(UIImage(systemName: "paperplane"), for: .normal)
         messageInputBar.sendButton.title = ""
@@ -176,11 +114,33 @@ class WCChatWithViewController: MessagesViewController {
             messagesCollectionView.backgroundView = UIImageView(image: UIImage(named: "wallpaper1"))
         }
         
-//        view.addSubview(chatView)
-        view.backgroundColor = .systemBackground
-//        setUpConstraints()
+        messagesCollectionView.messagesLayoutDelegate = self
+        messagesCollectionView.messagesDataSource = self
+        messagesCollectionView.messagesDisplayDelegate = self
+        
+        messageInputBar.inputTextView.layer.borderWidth = 0.3
+        messageInputBar.inputTextView.layer.cornerRadius = 15
+        messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.cgColor
+        
+        messageInputBar.inputTextView.isImagePasteEnabled = false
+        messageInputBar.sendButton.addTarget(self, action: #selector(sendButtonDidTap), for: .touchUpInside)
+    }
+    
+    func prepareNavbar() {
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
+        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(didTapBackButton))
+        
+        let phoneBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "phone"), style: .plain, target: nil, action: nil)
+        let cameraBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "video"), style: .plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItems = [cameraBarButtonItem,phoneBarButtonItem]
+        navigationItem.leftBarButtonItem = backButton
+        
+        
         
         let titleView =  ImageTextNavBarView(frame: navigationController?.navigationBar.frame ?? .zero)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleNavbarTap))
+        navigationController?.navigationBar.addGestureRecognizer(tapGestureRecognizer)
         
         if let data = Data(base64Encoded: user.image ?? "", options: .ignoreUnknownCharacters),let image = UIImage(data: data) {
             titleView.setImage(image, text: user.name)
@@ -189,37 +149,99 @@ class WCChatWithViewController: MessagesViewController {
         }
 //        titleView.sizeToFit()
         navigationItem.titleView = titleView
-        
-        messageInputBar.inputTextView.layer.borderWidth = 0.3
-        messageInputBar.inputTextView.layer.cornerRadius = 15
-        messageInputBar.inputTextView.layer.borderColor = UIColor.lightGray.cgColor
-        
-
-        messageInputBar.sendButton.addTarget(self, action: #selector(sendButtonDidTap), for: .touchUpInside)
     }
-    
-    
-//    private func setUpConstraints() {
-//        NSLayoutConstraint.activate([
-//            chatView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            chatView.leftAnchor.constraint(equalTo: view.leftAnchor),
-//            chatView.rightAnchor.constraint(equalTo: view.rightAnchor),
-//            chatView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//        ])
-//    }
-    
     
     @objc private func sendButtonDidTap() {
         guard let roomid = roomid else { return }
         let message = WCMessage(roomid: roomid,text: messageInputBar.inputTextView.text, reciever: user.phoneNumber, date: .init(date: .now), sender: Auth.auth().currentUser?.phoneNumber ?? "",image: nil)
         WCFirabaseCRUD.shared.sendMessage(message)
+        let m = Message(sender: selfSender, messageId: "", sentDate: .now, kind: .text(messageInputBar.inputTextView.text))
+        messages.append(m)
+        messagesCollectionView.reloadData()
+        messagesCollectionView.scrollToBottom(animated: true)
         messageInputBar.inputTextView.text = ""
 
+    }
+    
+    @objc func handleNavbarTap() {
+        let destinationVC = UINavigationController(rootViewController: WCShowContactViewController(contact: user))
+        destinationVC.modalPresentationStyle = .fullScreen
+        self.present(destinationVC, animated: true)
     }
 
     @objc func didTapBackButton() {
         self.dismiss(animated: true)
+        listener?.remove()
+        if listener == nil {
+            print("nil işte amk!")
+        }
     }
+    
+    func getMessages(with roomid: String) {
+    
+        let messagesFromLocalStorage = CRUD.shared.getMessages(with: roomid)
+        print("mesaj sayısı: \(messagesFromLocalStorage.count)")
+        for messageFromLocal in messagesFromLocalStorage {
+            if messageFromLocal.sender == selfSender.senderId {
+                if messageFromLocal.text != "" {
+                    let message = Message(sender: selfSender, messageId: "", sentDate: messageFromLocal.date.dateValue(), kind: .text(messageFromLocal.text))
+                    messages.append(message)
+                }else{
+                    if let image = messageFromLocal.image {
+                        let message = Message(sender: selfSender, messageId: "", sentDate: messageFromLocal.date.dateValue(), kind: .photo(ImageMediaItem(url: nil, placeholderImage: image, size: image.size)))
+                        messages.append(message)
+                    }
+                }
+                
+            }else {
+                if messageFromLocal.text != "" {
+                    let message = Message(sender: Sender(senderId: messageFromLocal.sender, displayName: ""), messageId: "", sentDate: messageFromLocal.date.dateValue(), kind: .text(messageFromLocal.text))
+                    messages.append(message)
+                }else{
+                    if let image = messageFromLocal.image {
+                        let message = Message(sender: Sender(senderId: messageFromLocal.sender, displayName: ""), messageId: "", sentDate: messageFromLocal.date.dateValue(), kind: .photo(ImageMediaItem(url: nil, placeholderImage: image, size: image.size)))
+                        messages.append(message)
+                    }
+                }
+            }
+        }
+        
+         
+        WCFirabaseCRUD.shared.getMessages(roomid: roomid) { [weak self] messagesFromFirebase in
+            guard let strongSelf = self else { return }
+//            strongSelf.listener = listener
+            print("count: \(messagesFromFirebase.count)")
+            for message in messagesFromFirebase {
+                if message.reciever == strongSelf.selfSender.senderId {
+                    if message.text != ""{
+                        let m = Message(sender: Sender(senderId: message.sender, displayName: ""), messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
+                        strongSelf.messages.append(m)
+                    }else {
+
+                        UIImageWriteToSavedPhotosAlbum(message.image!, nil, nil, nil)
+                        let media = ImageMediaItem(url: nil, placeholderImage: message.image!, size: message.image!.size)
+                        let m = Message(sender: Sender(senderId: message.sender, displayName: ""), messageId: "", sentDate: message.date.dateValue(), kind: .photo(media))
+                        strongSelf.messages.append(m)
+                    }
+
+                }else {
+                    if message.text != "" {
+                        let m = Message(sender: strongSelf.selfSender, messageId: "", sentDate: message.date.dateValue(), kind: .text(message.text))
+                        strongSelf.messages.append(m)
+                    }else {
+                        UIImageWriteToSavedPhotosAlbum(message.image!, nil, nil, nil)
+                        let media = ImageMediaItem(url: nil, placeholderImage: message.image!, size: message.image!.size)
+                        let m = Message(sender: strongSelf.selfSender, messageId: "", sentDate: message.date.dateValue(), kind: .photo(media))
+                        strongSelf.messages.append(m)
+                    }
+
+                }
+            }
+            strongSelf.messagesCollectionView.reloadData()
+            strongSelf.messagesCollectionView.scrollToBottom(animated: true)
+        }
+    }
+    
 
 }
 
@@ -253,8 +275,15 @@ extension WCChatWithViewController: UIImagePickerControllerDelegate, UINavigatio
             let message = WCMessage(roomid: roomid,text: "", reciever: user.phoneNumber, date: .init(date: .now), sender: Auth.auth().currentUser?.phoneNumber ?? "", image: pickedImage as? UIImage)
             WCFirabaseCRUD.shared.sendMessage(message)
             
+            if let image = pickedImage as? UIImage {
+                let m = Message(sender: selfSender, messageId: "", sentDate: .now, kind: .photo(ImageMediaItem(url: nil, placeholderImage: image, size: image.size)))
+                messages.append(m)
+                messagesCollectionView.reloadData()
+                messagesCollectionView.scrollToBottom(animated: true)
+            }
+            
             picker.dismiss(animated: true)
-            messagesCollectionView.scrollToBottom(animated: true)
+
         }
     }
     
@@ -292,7 +321,7 @@ class ImageTextNavBarView: UIView {
       imageView.contentMode = .scaleAspectFill
       imageView.clipsToBounds = true
       
-      let margin = UIScreen.main.bounds.width / -2.44
+      let margin = UIScreen.main.bounds.width / -2.8 //-2.44
       
     NSLayoutConstraint.activate([
       imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: margin ),
@@ -301,7 +330,7 @@ class ImageTextNavBarView: UIView {
       imageView.widthAnchor.constraint(equalToConstant: 40),
 
       titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
-      titleLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+      titleLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
 //      titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
     ])
       

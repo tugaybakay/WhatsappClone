@@ -9,6 +9,7 @@ import UIKit
 
 enum WCSettingsOption: CaseIterable {
     case rateApp
+    case editProfile
     case terms
     case privacycase
     case viewCode
@@ -18,6 +19,8 @@ enum WCSettingsOption: CaseIterable {
     var targetURL: URL? {
         switch self {
         case .rateApp:
+            return nil
+        case .editProfile:
             return nil
         case .terms:
             return URL(string: "https://www.whatsapp.com/legal/terms-of-service")
@@ -36,6 +39,8 @@ enum WCSettingsOption: CaseIterable {
         switch self {
         case .rateApp:
             return "Rate App"
+        case .editProfile:
+            return "Edit Profile"
         case .terms:
             return "Terms of Service"
         case .privacycase:
@@ -43,7 +48,7 @@ enum WCSettingsOption: CaseIterable {
         case .viewCode:
             return "View App Code"
         case .firabaseReference:
-            return "Firebase Documentations"
+            return "Firebase Documentation"
         case .logout:
             return "Logout"
         }
@@ -53,6 +58,8 @@ enum WCSettingsOption: CaseIterable {
         switch self {
         case .rateApp:
             return UIColor.systemBlue
+        case .editProfile:
+            return UIColor.systemPurple
         case .terms:
             return UIColor.systemOrange
         case .privacycase:
@@ -70,6 +77,8 @@ enum WCSettingsOption: CaseIterable {
         switch self {
         case .rateApp:
             return UIImage(systemName: "star.fill")
+        case .editProfile:
+            return UIImage(systemName: "person.crop.circle")
         case .terms:
             return UIImage(systemName: "doc")
         case .privacycase:

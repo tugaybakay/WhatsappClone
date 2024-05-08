@@ -50,6 +50,5 @@ extension WCWelcomeViewController: WCWelcomeViewDelegate {
     func wcWelcomeViewButtonDidTap() {
         let vc = WCRegisterViewController()
         navigationController?.pushViewController(vc, animated: true)
-        self.dismiss(animated: true)
     }
 }

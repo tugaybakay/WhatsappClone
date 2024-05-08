@@ -44,7 +44,7 @@ final class WCFirabaseCRUD {
             let db = Firestore.firestore()
             let messagesCollection = db.collection("messages")
             
-            if let image = message.image, let data = image.jpegData(compressionQuality: 0.4) {
+            if let image = message.image, let data = image.jpegData(compressionQuality: 0.5) {
                 let base64Image = data.base64EncodedString()
                 let dataToAdd: [String:Any] = [
                     "roomid": message.roomid,
@@ -66,10 +66,7 @@ final class WCFirabaseCRUD {
                 ]
                 messagesCollection.addDocument(data: dataToAdd)
             }
-           
-            
-            
-           
+            CRUD.shared.insertMessageToLocalStorage(message)
         }
         
     }
@@ -109,6 +106,14 @@ final class WCFirabaseCRUD {
                 .addSnapshotListener { snapshot, error in
                 
                 if error == nil {
+                    if snapshot!.isEmpty {
+                        let conversation = CRUD.shared.getConversation(with: roomid)
+                        if let conversation = conversation {
+                            print("read from local")
+                            let message = WCMessage(roomid: conversation.roomid, text: conversation.text, reciever: "", date: conversation.date, sender: "", image: nil)
+                            completion(message)
+                        }
+                    }
                 for doc in snapshot!.documents {
                     
                     let data = doc.data()
@@ -121,6 +126,7 @@ final class WCFirabaseCRUD {
                     }
                     let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender,image: nil)
 //                    print(text)
+
                     completion(message)
                     
                 }
@@ -132,18 +138,19 @@ final class WCFirabaseCRUD {
             }
         }
 
-            
-//            messageCollection
-//                .whereField("receiver", isEqualTo: selfPhone)
-//                .whereField("senderPhone", isEqualTo: selfPhone)
-//                .getDocuments { snapshot, error in
-//
-//
-//            }
         }
     }
     
-    func getMessages(roomid: String,_ completion: @escaping (Result<[WCMessage],Error>) -> Void) {
+    func deleteDoc(docID: String,collectionName: String) {
+        DispatchQueue.main.async {
+            let db = Firestore.firestore()
+            let messageCollection = db.collection("messages")
+            messageCollection.document(docID).delete()
+            print("Document successfully removed!")
+        }
+    }
+    
+    func getMessages(roomid: String,_ completion: @escaping ([WCMessage]) -> Void ) {
         
         var allMessages: [WCMessage] = []
         DispatchQueue.main.async {
@@ -151,57 +158,72 @@ final class WCFirabaseCRUD {
             let messageCollection = db.collection("messages")
             
             
-            messageCollection.whereField("roomid", isEqualTo: roomid)
+            let listener = messageCollection.whereFilter(Filter.andFilter([
+                Filter.whereField("roomid", isEqualTo: roomid),
+                Filter.whereField("receiver", isEqualTo: self.selfPhone)
+            ]))
                 .order(by: "date",descending: false)
                 .addSnapshotListener { snapshot, error in
-                
-                if error == nil {
-                for doc in snapshot!.documents {
                     
-                    let data = doc.data()
-                    let text = data["text"] as! String
-                    let sender = data["senderPhone"] as! String
-                    let receiver = data["receiver"] as! String
-                    let date = data["date"] as! Timestamp
-                    let image = data["image"] as! String
-                    
-                    if text == "" {
-                        if let data = Data(base64Encoded: image), let image = UIImage(data: data) {
-                            let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender, image: image)
-                            allMessages.append(message)
+                    if error == nil {
+                        for doc in snapshot!.documents {
+                            
+                            let data = doc.data()
+                            let docID = doc.documentID
+                            let text = data["text"] as! String
+                            let sender = data["senderPhone"] as! String
+                            let receiver = data["receiver"] as! String
+                            let date = data["date"] as! Timestamp
+                            let image = data["image"] as! String
+                            
+                            if text == "" {
+                                if let data = Data(base64Encoded: image), let image = UIImage(data: data) {
+                                    let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender, image: image)
+                                    allMessages.append(message)
+                                    CRUD.shared.insertMessageToLocalStorage(message)
+                                }
+                            }else {
+                                let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender, image: nil)
+                                allMessages.append(message)
+                                CRUD.shared.insertMessageToLocalStorage(message)
+                            }
+                            
+                            self.deleteDoc(docID: docID, collectionName: "messages")
+                            
                         }
+                       
+                        
+                        
                     }else {
-                        let message = WCMessage(roomid: roomid, text: text, reciever: receiver, date: date, sender: sender, image: nil)
-                        allMessages.append(message)
+                        print(error!.localizedDescription)
                     }
-                    
-                }
-                    completion(.success(allMessages))
+                    completion(allMessages)
                     allMessages.removeAll()
-                    
-            }else {
-                print(error!.localizedDescription)
-                completion(.failure(error!))
-            }
-        }
-
+                }
             
-//            messageCollection
-//                .whereField("receiver", isEqualTo: selfPhone)
-//                .whereField("senderPhone", isEqualTo: selfPhone)
-//                .getDocuments { snapshot, error in
-//
-//
-//            }
+            
+            //            messageCollection
+            //                .whereField("receiver", isEqualTo: selfPhone)
+            //                .whereField("senderPhone", isEqualTo: selfPhone)
+            //                .getDocuments { snapshot, error in
+            //
+            //
+            //            }
+            
         }
+        
     }
     
     func getRooms(_ completion: @escaping (Result<[WCRoom],Error>) -> Void) {
         let db = Firestore.firestore()
         let collection = db.collection("rooms")
-
+        CRUD.shared.deleteAllRooms()
         
-        collection.whereFilter(Filter.orFilter([Filter.whereField("user1", isEqualTo: selfPhone), Filter.whereField("user2", isEqualTo: selfPhone)])).getDocuments { snapshot, error in
+        collection.whereFilter(Filter.orFilter([
+            Filter.whereField("user1", isEqualTo: selfPhone),
+            Filter.whereField("user2", isEqualTo: selfPhone)
+        ]))
+            .getDocuments { snapshot, error in
             if error == nil {
                 let docs = snapshot!.documents
                 var rooms: [WCRoom] = []
@@ -212,6 +234,8 @@ final class WCFirabaseCRUD {
                     let roomid = data["roomid"] as! String
                     let room = WCRoom(roomid: roomid, user1: user1, user2: user2)
                     rooms.append(room)
+                    CRUD.shared.insertRoomToLocalStorage(room)
+//                    self.deleteDoc(docID: doc.documentID, collectionName: "rooms")
                 }
                 completion(.success(rooms))
             }else {
@@ -257,6 +281,7 @@ final class WCFirabaseCRUD {
         let collection = db.collection("rooms")
         
         let data: [String:Any] = ["roomid": roomid, "user1": receiver, "user2": selfPhone]
+//        CRUD.shared.insertRoomToLocalStorage(.init(roomid: roomid, user1: receiver, user2: selfPhone))
         collection.addDocument(data: data)
     }
     

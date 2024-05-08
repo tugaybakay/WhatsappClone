@@ -46,6 +46,8 @@
 		22A043FD2BE6688C0071644C /* WCSettingsViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A043FC2BE6688C0071644C /* WCSettingsViewViewModel.swift */; };
 		22A2B5C52BBEE762006F695A /* WCChatWithViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A2B5C42BBEE762006F695A /* WCChatWithViewController.swift */; };
 		22A2B5C72BBEE77F006F695A /* WCChatWithView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A2B5C62BBEE77F006F695A /* WCChatWithView.swift */; };
+		22BB43C32BE6DAAA00B67080 /* WCShowContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB43C22BE6DAAA00B67080 /* WCShowContactViewController.swift */; };
+		22BB43C52BE6DAC500B67080 /* WCShowContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB43C42BE6DAC500B67080 /* WCShowContactView.swift */; };
 		22CBA2162BA9EA79004C784B /* WCSelectNewChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CBA2152BA9EA78004C784B /* WCSelectNewChatViewController.swift */; };
 		22CBA2182BA9EBD8004C784B /* WCSelectNewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CBA2172BA9EBD8004C784B /* WCSelectNewChatView.swift */; };
 		22CBA21A2BA9EDA6004C784B /* WCSelectNewChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CBA2192BA9EDA6004C784B /* WCSelectNewChatTableViewCell.swift */; };
@@ -94,6 +96,8 @@
 		22A043FC2BE6688C0071644C /* WCSettingsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSettingsViewViewModel.swift; sourceTree = "<group>"; };
 		22A2B5C42BBEE762006F695A /* WCChatWithViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCChatWithViewController.swift; sourceTree = "<group>"; };
 		22A2B5C62BBEE77F006F695A /* WCChatWithView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCChatWithView.swift; sourceTree = "<group>"; };
+		22BB43C22BE6DAAA00B67080 /* WCShowContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCShowContactViewController.swift; sourceTree = "<group>"; };
+		22BB43C42BE6DAC500B67080 /* WCShowContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCShowContactView.swift; sourceTree = "<group>"; };
 		22CBA2152BA9EA78004C784B /* WCSelectNewChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSelectNewChatViewController.swift; sourceTree = "<group>"; };
 		22CBA2172BA9EBD8004C784B /* WCSelectNewChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSelectNewChatView.swift; sourceTree = "<group>"; };
 		22CBA2192BA9EDA6004C784B /* WCSelectNewChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSelectNewChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 				229546032B3B4DC5001B65A6 /* WCCreateProfileViewController.swift */,
 				22CBA2152BA9EA78004C784B /* WCSelectNewChatViewController.swift */,
 				22A2B5C42BBEE762006F695A /* WCChatWithViewController.swift */,
+				22BB43C22BE6DAAA00B67080 /* WCShowContactViewController.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 				22CBA2192BA9EDA6004C784B /* WCSelectNewChatTableViewCell.swift */,
 				2245B8E82BB59AA200ECD3AF /* WCSearchContactsView.swift */,
 				22A2B5C62BBEE77F006F695A /* WCChatWithView.swift */,
+				22BB43C42BE6DAC500B67080 /* WCShowContactView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -415,6 +421,7 @@
 				220D56502B21F6B9003A2155 /* WCTabBarController.swift in Sources */,
 				220D564C2B21F6B9003A2155 /* AppDelegate.swift in Sources */,
 				22A043F82BE665F00071644C /* WCSettingsCellViewModel.swift in Sources */,
+				22BB43C52BE6DAC500B67080 /* WCShowContactView.swift in Sources */,
 				222ABC242BE558C000AE1E54 /* WCConversation.swift in Sources */,
 				22A043FD2BE6688C0071644C /* WCSettingsViewViewModel.swift in Sources */,
 				229545F92B35B1AF001B65A6 /* WCUser.swift in Sources */,
@@ -440,6 +447,7 @@
 				220D56562B21F6B9003A2155 /* WhatsappClone.xcdatamodeld in Sources */,
 				229546022B3B4D4E001B65A6 /* WCChatsTableViewViewModel.swift in Sources */,
 				220D56762B23879C003A2155 /* WCRegisterViewController.swift in Sources */,
+				22BB43C32BE6DAAA00B67080 /* WCShowContactViewController.swift in Sources */,
 				22CBA2182BA9EBD8004C784B /* WCSelectNewChatView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

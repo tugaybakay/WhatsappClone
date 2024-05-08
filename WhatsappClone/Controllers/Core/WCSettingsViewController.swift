@@ -72,6 +72,8 @@ class WCSettingsViewController: UIViewController {
             alert.addAction(.init(title: "Cancel", style: .destructive))
             
             present(alert, animated: true)
+        }else if option == .editProfile {
+            
         }
         
     }

@@ -102,14 +102,14 @@ extension WCCreateProfileView: ImageSelectionDelegate {
                 if error == nil {
                     guard let self = self else { return }
                     
-                    if CRUD.shared.insertUserData(
-                        name: self.profileName.text,
-                        phoneNumber: Auth.auth().currentUser?.phoneNumber,
-                        image: profileImage.image?.jpegData(compressionQuality: 0.5)) {
-                        self.delegate?.didFinishCreatingProfile()
-                    }else{
-                        fatalError()
-                    }
+//                    if CRUD.shared.insertUserData(
+//                        name: self.profileName.text,
+//                        phoneNumber: Auth.auth().currentUser?.phoneNumber,
+//                        image: profileImage.image?.jpegData(compressionQuality: 0.5)) {
+//                        self.delegate?.didFinishCreatingProfile()
+//                    }else{
+//                        fatalError()
+//                    }
                     
                 }
             }

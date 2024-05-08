@@ -8,7 +8,6 @@
 import UIKit
 import Contacts
 
-
 final class WCContactsManagment {
     
     static let shared = WCContactsManagment()
@@ -56,10 +55,12 @@ final class WCContactsManagment {
                                         for user in contactsFromFirebase {
                                             if user.phoneNumber == contact.phoneNumber {
                                                 let myContact = WCContact(name: contact.name, phoneNumber: user.phoneNumber, image: user.image)
+                                                CRUD.shared.insertUserData(name: contact.name, phoneNumber: contact.phoneNumber, image: Data(base64Encoded: user.image!, options: .ignoreUnknownCharacters))
                                                 self?.contacts.append(myContact)
                                             }
                                             
                                         }
+                                        
                                     }
                                     self?.getLetters()
                                 }
@@ -84,7 +85,6 @@ final class WCContactsManagment {
                         }
                     }
                 }))
-                
                 alert.addAction(UIAlertAction(title: "İptal", style: .cancel, handler: nil))
                 
                 if let vc = UIApplication.shared.keyWindow?.rootViewController {
