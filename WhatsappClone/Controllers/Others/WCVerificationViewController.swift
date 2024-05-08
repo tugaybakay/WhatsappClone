@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 
+
 class WCVerificationViewController: UIViewController {
     
     let verificationView = WCVerificationView()

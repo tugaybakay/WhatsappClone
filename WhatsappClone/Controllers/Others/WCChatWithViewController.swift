@@ -68,7 +68,6 @@ class WCChatWithViewController: MessagesViewController {
                 self?.roomid = roomid
             }
         }else {
-            print(roomid!)
             getMessages(with: roomid!)
         }
         
@@ -164,23 +163,20 @@ class WCChatWithViewController: MessagesViewController {
     }
     
     @objc func handleNavbarTap() {
-        let destinationVC = UINavigationController(rootViewController: WCShowContactViewController(contact: user))
-        destinationVC.modalPresentationStyle = .fullScreen
+        let destinationVC = WCShowContactViewController(contact: user)
+//        destinationVC.modalPresentationStyle = .fullScreen
         self.present(destinationVC, animated: true)
+//        navigationController?.pushViewController(destinationVC, animated: true)
     }
 
     @objc func didTapBackButton() {
         self.dismiss(animated: true)
-        listener?.remove()
-        if listener == nil {
-            print("nil işte amk!")
-        }
+        print("bastı!")
     }
     
     func getMessages(with roomid: String) {
     
         let messagesFromLocalStorage = CRUD.shared.getMessages(with: roomid)
-        print("mesaj sayısı: \(messagesFromLocalStorage.count)")
         for messageFromLocal in messagesFromLocalStorage {
             if messageFromLocal.sender == selfSender.senderId {
                 if messageFromLocal.text != "" {
@@ -210,7 +206,6 @@ class WCChatWithViewController: MessagesViewController {
         WCFirabaseCRUD.shared.getMessages(roomid: roomid) { [weak self] messagesFromFirebase in
             guard let strongSelf = self else { return }
 //            strongSelf.listener = listener
-            print("count: \(messagesFromFirebase.count)")
             for message in messagesFromFirebase {
                 if message.reciever == strongSelf.selfSender.senderId {
                     if message.text != ""{
@@ -329,7 +324,7 @@ class ImageTextNavBarView: UIView {
       imageView.heightAnchor.constraint(equalToConstant: 40),
       imageView.widthAnchor.constraint(equalToConstant: 40),
 
-      titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
+      titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 15),
       titleLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
 //      titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
     ])

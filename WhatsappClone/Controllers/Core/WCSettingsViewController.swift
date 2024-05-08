@@ -60,6 +60,7 @@ class WCSettingsViewController: UIViewController {
             let action = UIAlertAction(title: "Yes", style: .default) { _ in
                 do {
                     try Auth.auth().signOut()
+                    CRUD.shared.truncateDatabase()
                     let vc = UINavigationController(rootViewController: WCWelcomeViewController())
                     vc.modalPresentationStyle = .fullScreen
                     self.present(vc, animated: true)
@@ -72,8 +73,6 @@ class WCSettingsViewController: UIViewController {
             alert.addAction(.init(title: "Cancel", style: .destructive))
             
             present(alert, animated: true)
-        }else if option == .editProfile {
-            
         }
         
     }

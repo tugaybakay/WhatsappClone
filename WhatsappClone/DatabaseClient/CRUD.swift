@@ -25,7 +25,7 @@ final class CRUD {
     
     private init() {}
 
-    func insertUserData(name: String, phoneNumber: String, image: Data? ) {
+    func insertUserData(name: String, phoneNumber: String, image: Data? ) -> Bool{
         let context = self.persistentContainer.viewContext
         if let entitiy = NSEntityDescription.entity(forEntityName: "Users", in: context) {
             let newObject = NSManagedObject(entity: entitiy, insertInto: context)
@@ -36,11 +36,13 @@ final class CRUD {
 
             do{
                 try context.save()
+                return true
             }catch{
                 print("inserting failed")
             }
 
         }
+        return false
     }
     
     func getUserData(phone: String) -> WCContact? {
@@ -94,7 +96,6 @@ final class CRUD {
             
             do{
                 try context.save()
-                print("oda kaydedildi!")
             }catch{
                 print(error.localizedDescription)
             }
@@ -125,7 +126,6 @@ final class CRUD {
             
             do {
                 try context.save()
-                print("kaydedildi!")
             }catch{
                 print(error.localizedDescription)
             }
@@ -133,7 +133,6 @@ final class CRUD {
     }
     
     func insertConversationToLocalStorage(_ conversation: WCConversation) {
-        print("conversation inserting succesful!")
         let context = self.persistentContainer.viewContext
         if let entity = NSEntityDescription.entity(forEntityName: "Conversations", in: context) {
             
@@ -145,7 +144,6 @@ final class CRUD {
             
             do {
                 try context.save()
-                print("kaydetti mk!")
             }catch{
                 print(error.localizedDescription)
             }
@@ -183,7 +181,6 @@ final class CRUD {
             }
         }catch {
             print(error.localizedDescription)
-            print("hata!1")
         }
         return messages
     }
@@ -197,7 +194,6 @@ final class CRUD {
 
         do {
             let items = try context.fetch(fetchRequest)
-            print("bu item count: \(items.count)")
             for item in items {
                 let contactPhone = item.value(forKey: "contactPhone") as! String
                 let date = item.value(forKey: "date") as! Date
@@ -206,7 +202,6 @@ final class CRUD {
 
                 if let contact = getUserData(phone: contactPhone) {
                     let conversation = WCConversation(contact: contact, text: text, date: .init(date: date), roomid: roomid)
-                    print("conversation from local: \(conversation.roomid)")
                     return conversation
                 
                 }
@@ -234,7 +229,6 @@ final class CRUD {
     }
     
     func deleteConversationFromLocaleStorage(roomid: String) {
-        print("silindi conversation!")
         let context = self.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Conversations")
         let predicate = NSPredicate(format: "roomid == %@", roomid)
@@ -262,5 +256,50 @@ final class CRUD {
         }catch{
             print(error.localizedDescription)
         }
+    }
+    
+    func truncateDatabase() {
+        
+        do  {
+            if let url = persistentContainer.persistentStoreDescriptions[0].url {
+                try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
+            }
+            let container = NSPersistentContainer(name: "WhatsappClone")
+            container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+                if let error = error as NSError? {
+                    fatalError("Veri tabanı yüklenirken hata oluştu: \(error), \(error.userInfo)")
+                }
+            })
+            persistentContainer = container
+            WCContactsManagment.shared.removeObjectsFromLists()
+        }catch {
+            fatalError()
+        }
+//        let context = persistentContainer.viewContext
+//        let fetchRequestCons = NSFetchRequest<NSManagedObject>(entityName: "Conversations")
+//        let fetchRequestMess = NSFetchRequest<NSManagedObject>(entityName: "Mess")
+//        let fetchRequestRooms = NSFetchRequest<NSManagedObject>(entityName: "Rooms")
+//        let fetchRequestUsers = NSFetchRequest<NSManagedObject>(entityName: "Users")
+//        do {
+//            let conItems = try context.fetch(fetchRequestCons)
+//            let mesItems = try context.fetch(fetchRequestMess)
+//            let roomItems = try context.fetch(fetchRequestRooms)
+//            let userItems = try context.fetch(fetchRequestUsers)
+//            for conItem in conItems {
+//                deleteObjectFromLocalStorage(object: conItem, entityName: "Conversations")
+//            }
+//            for mesItem in mesItems {
+//                deleteObjectFromLocalStorage(object: mesItem, entityName: "Mess")
+//            }
+//            for roomItem in roomItems {
+//                deleteObjectFromLocalStorage(object: roomItem, entityName: "Rooms")
+//            }
+//            for userItem in userItems {
+//                deleteObjectFromLocalStorage(object: userItem, entityName: "Users")
+//            }
+//
+//        }catch {
+//            fatalError("fatal error! Error Truncating Database")
+//        }
     }
 }

@@ -8,11 +8,13 @@
 import UIKit
 import KKPinCodeTextField
 
-protocol WCVerificationViewDelegate: AnyObject {
-    func textDidChange(code: String)
-}
+//protocol WCVerificationViewDelegate: AnyObject {
+//    func handleController()
+//}
 
 final class WCVerificationView: UIView {
+    
+    let viewModel: WCVerificationViewViewModel = WCVerificationViewViewModel()
 
     let explanationLabel: UILabel = {
         let label = UILabel()
@@ -70,4 +72,6 @@ final class WCVerificationView: UIView {
     }
 
 }
+
+
 

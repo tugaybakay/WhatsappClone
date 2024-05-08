@@ -55,7 +55,7 @@ final class WCContactsManagment {
                                         for user in contactsFromFirebase {
                                             if user.phoneNumber == contact.phoneNumber {
                                                 let myContact = WCContact(name: contact.name, phoneNumber: user.phoneNumber, image: user.image)
-                                                CRUD.shared.insertUserData(name: contact.name, phoneNumber: contact.phoneNumber, image: Data(base64Encoded: user.image!, options: .ignoreUnknownCharacters))
+//                                                CRUD.shared.insertUserData(name: contact.name, phoneNumber: contact.phoneNumber, image: Data(base64Encoded: user.image!, options: .ignoreUnknownCharacters))
                                                 self?.contacts.append(myContact)
                                             }
                                             
@@ -136,6 +136,13 @@ final class WCContactsManagment {
         }
 
         return formattedNumber
+    }
+    
+    func removeObjectsFromLists() {
+        contacts.removeAll()
+        letters.removeAll()
+        filteredContacts.removeAll()
+        lettersCounts.removeAll()
     }
 }
 

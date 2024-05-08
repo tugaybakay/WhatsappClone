@@ -15,7 +15,6 @@ struct WCSettingsView: View {
     }
     
     
-    
     var body: some View {
         List(viewModel.cellViewModels) { viewModel in
             HStack {

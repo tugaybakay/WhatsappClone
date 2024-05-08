@@ -17,6 +17,7 @@ protocol WCCreateProfileViewDelegate: AnyObject {
 final class WCCreateProfileView: UIView {
     
     weak var delegate: WCCreateProfileViewDelegate?
+    let viewModel:WCCreateProfileViewViewModel = WCCreateProfileViewViewModel()
 
     let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -84,35 +85,7 @@ extension WCCreateProfileView: ImageSelectionDelegate {
     }
     
     func doneButtonTapped() {
-        DispatchQueue.main.async { [weak self] in
-            let db = Firestore.firestore()
-            let usersCollection = db.collection("users")
-            
-            let imageData = self?.profileImage.image?.jpegData(compressionQuality: 0.5)
-            let base64Image = imageData?.base64EncodedString()
-            let phoneNumber = Auth.auth().currentUser?.phoneNumber
-            
-            let dataToAdd: [String:Any] = [
-                "name" : self?.profileName.text ?? "",
-                "number" : phoneNumber ?? "",
-                "profileImage" : base64Image ?? ""
-            ]
-
-            usersCollection.addDocument(data: dataToAdd) { [weak self] error in
-                if error == nil {
-                    guard let self = self else { return }
-                    
-//                    if CRUD.shared.insertUserData(
-//                        name: self.profileName.text,
-//                        phoneNumber: Auth.auth().currentUser?.phoneNumber,
-//                        image: profileImage.image?.jpegData(compressionQuality: 0.5)) {
-//                        self.delegate?.didFinishCreatingProfile()
-//                    }else{
-//                        fatalError()
-//                    }
-                    
-                }
-            }
-        }
+        viewModel.saveNewUser(name: profileName.text ?? "", image: profileImage.image)
+        self.delegate?.didFinishCreatingProfile()
     }
 }

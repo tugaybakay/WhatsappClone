@@ -109,7 +109,6 @@ final class WCFirabaseCRUD {
                     if snapshot!.isEmpty {
                         let conversation = CRUD.shared.getConversation(with: roomid)
                         if let conversation = conversation {
-                            print("read from local")
                             let message = WCMessage(roomid: conversation.roomid, text: conversation.text, reciever: "", date: conversation.date, sender: "", image: nil)
                             completion(message)
                         }
@@ -146,8 +145,17 @@ final class WCFirabaseCRUD {
             let db = Firestore.firestore()
             let messageCollection = db.collection("messages")
             messageCollection.document(docID).delete()
-            print("Document successfully removed!")
         }
+    }
+    
+    func signInWithCredential(user: WCUser, code: String,_ completion: @escaping (Bool) -> Void) {
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: user.verificationID, verificationCode: code)
+        Auth.auth().signIn(with: credential) { result, error in
+            if error != nil {
+                completion(false)
+            }
+        }
+        completion(true)
     }
     
     func getMessages(roomid: String,_ completion: @escaping ([WCMessage]) -> Void ) {
@@ -157,8 +165,7 @@ final class WCFirabaseCRUD {
             let db = Firestore.firestore()
             let messageCollection = db.collection("messages")
             
-            
-            let listener = messageCollection.whereFilter(Filter.andFilter([
+            messageCollection.whereFilter(Filter.andFilter([
                 Filter.whereField("roomid", isEqualTo: roomid),
                 Filter.whereField("receiver", isEqualTo: self.selfPhone)
             ]))

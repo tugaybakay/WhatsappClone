@@ -76,7 +76,7 @@ class WCRegisterViewController: UIViewController {
                     self?.title = "edit number"
                 }
             }
-            print(phoneNumber)
+            
         }else {
             
             let alert = UIAlertController(title: "Error", message: "You must enter the phone number!", preferredStyle: .alert)
